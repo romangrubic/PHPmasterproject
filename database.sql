@@ -8,10 +8,10 @@ create table osoba(
     prezime varchar(50) not null,
     email varchar(255) not null,
     brojtelefona varchar(15),
-    lokacija int
+    adresa int
 );
 
-create table lokacija(
+create table adresa(
     sifra int not null primary key auto_increment,
     ulica varchar(255),
     kucnibroj varchar(10),
@@ -42,10 +42,23 @@ create table proizvod(
     osoba int not null
 );
 
-alter table osoba add foreign key (lokacija) references lokacija(sifra);
+create table recenzija(
+    sifra int not null primary key auto_increment,
+    osoba int not null,
+    proizvod int not null,
+    rejting int(1) not null,
+    tekst varchar(255) not null, 
+    datum datetime
+);
+
+
+alter table osoba add foreign key (adresa) references adresa(sifra);
 
 alter table podkategorija add foreign key (kategorija) references kategorija(sifra);
 
 alter table proizvod add foreign key (kategorija) references kategorija(sifra);
 alter table proizvod add foreign key (podkategorija) references podkategorija(sifra);
 alter table proizvod add foreign key (osoba) references osoba(sifra);
+
+alter table recenzija add foreign key (osoba) references osoba(sifra);
+alter table recenzija add foreign key (proizvod) references proizvod(sifra);
