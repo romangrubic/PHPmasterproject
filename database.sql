@@ -30,9 +30,16 @@ create table product(
     id int not null primary key auto_increment,
     name varchar(255) not null,
     description text,
-    category int not null,
     subcategory int not null,
-    price decimal(18,2)
+    price decimal(18,2),
+    dateadded datetime
+);
+
+create table productimage(
+    id not null primary key auto_increment,
+    product int not null,
+    imageurl varchar(255),
+    dateadded datetime
 );
 
 create table review(
@@ -41,14 +48,15 @@ create table review(
     product int not null,
     rating int(1) not null,
     description varchar(255) not null, 
-    date datetime
+    dateadded datetime
 );
 
 
 alter table subcategory add foreign key (category) references category(id);
 
-alter table product add foreign key (category) references category(id);
 alter table product add foreign key (subcategory) references subcategory(id);
+
+alter table productimage add foreign key (product) references product(id);
 
 alter table review add foreign key (customer) references customer(id);
 alter table review add foreign key (product) references product(id);
