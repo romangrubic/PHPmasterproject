@@ -36,7 +36,7 @@ create table product(
 );
 
 create table productimage(
-    id not null primary key auto_increment,
+    id int not null primary key auto_increment,
     product int not null,
     imageurl varchar(255),
     dateadded datetime
