@@ -20,18 +20,11 @@ create table category(
     description varchar(255)
 );
 
-create table subcategory(
-    id int not null primary key auto_increment,
-    category int not null,
-    name varchar(50) not null,
-    description varchar(255)
-);
-
 create table product(
     id int not null primary key auto_increment,
     name varchar(255) not null,
     description text,
-    subcategory int not null,
+    category int not null,
     price decimal(18,2),
     dateadded datetime
 );
@@ -59,19 +52,8 @@ create table cart_product(
     dateadded datetime
 );
 
-create table review(
-    id int not null primary key auto_increment,
-    customer int not null,
-    product int not null,
-    rating int(1) not null,
-    description varchar(255) not null, 
-    dateadded datetime
-);
 
-
-alter table subcategory add foreign key (category) references category(id);
-
-alter table product add foreign key (subcategory) references subcategory(id);
+alter table product add foreign key (category) references category(id);
 
 alter table productimage add foreign key (product) references product(id);
 
@@ -79,6 +61,3 @@ alter table cart add foreign key (customer) references customer(id);
 
 alter table cart_product add foreign key (cart) references cart(id);
 alter table cart_product add foreign key (product) references product(id);
-
-alter table review add foreign key (customer) references customer(id);
-alter table review add foreign key (product) references product(id);
