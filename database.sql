@@ -47,6 +47,7 @@ create table cart(
     id int not null primary key auto_increment,
     shoppingorder int not null,
     product int not null,
+    price decimal(18,2),
     quantity int not null,
     dateadded datetime not null
 );
@@ -93,7 +94,7 @@ insert into product(id,name,description,category,price,dateadded) values
 (null,'Hikvision C100, 2.5"',null,7,299.99,now()),
 (null,'Akyga AK-B1-500',null,8,299.99,now()),
 (null,'Kingston KCP426NS6/4',null,9,179.99,now()),
-(null,'Intel Core i3-10100F',null,10,749.99,now()),
+(null,'Intel Core i3-10100F',null,10,749.99,now());
 
 insert into productimage(id,product,imageurl,dateadded) values
 (null,1,'https://www.links.hr/content/images/thumbs/009/0096739_tipkovnica-redragon-draconic-k530-rgb-mehanicka-bezicna-usb-us-layout-crna-101200626.png','2021-11-26 13:05'),
@@ -118,20 +119,20 @@ insert into shoppingorder(id,customer,dateadded) values
 (null,7,now()),
 (null,8,now());
 
-insert into cart(id,shoppingorder,product,quantity,dateadded) values
-(null,1,1,1,now()),
-(null,1,2,1,now()),
-(null,2,5,2,now()),
-(null,3,1,1,now()),
-(null,3,2,1,now()),
-(null,4,3,1,now()),
-(null,4,4,1,now()),
-(null,5,1,1,now()),
-(null,5,7,1,now()),
-(null,6,1,1,now()),
-(null,6,8,1,now()),
-(null,7,5,1,now()),
-(null,7,6,1,now()),
-(null,8,7,1,now()),
-(null,8,9,1,now()),
-(null,8,10,1,now());
+insert into cart(id,shoppingorder,product,price,quantity,dateadded) values
+(null,1,1,479.99,1,now()),
+(null,1,2,750.99,1,now()),
+(null,2,5,1799.99,2,now()),
+(null,3,1,479.99,1,now()),
+(null,3,2,750.99,1,now()),
+(null,4,3,429.99,1,now()),
+(null,4,4,669.99,1,now()),
+(null,5,1,479.99,1,now()),
+(null,5,7,299.99,1,now()),
+(null,6,1,479.99,1,now()),
+(null,6,8,299.99,1,now()),
+(null,7,5,1799.99,1,now()),
+(null,7,6,14.99,1,now()),
+(null,8,7,299.99,1,now()),
+(null,8,9,179.99,1,now()),
+(null,8,10,749.99,1,now());
