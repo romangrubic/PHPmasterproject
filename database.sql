@@ -84,17 +84,17 @@ insert into category(id,name,description) values
 (null,'Memorija za računala','RAM'),
 (null,'Procesor','Rzyen i Intel');
 
-insert into product(id,name,description,category,price,dateadded) values
-(null,'REDRAGON K530 PRO RGB',null,1,479.99,now()),
-(null,'LOGITECH MX Master 3',null,2,750.99,now()),
-(null,'MS Industrial ARMOR V700 gaming',null,3,429.99,now()),
-(null,'GIGABYTE B450 Gaming X',null,4,669.99,now()),
-(null,'GIGABYTE M27F-EK',null,5,1799.99,now()),
-(null,'Xilence 40×40×10mm',null,6,14.99,now()),
-(null,'Hikvision C100, 2.5"',null,7,299.99,now()),
-(null,'Akyga AK-B1-500',null,8,299.99,now()),
-(null,'Kingston KCP426NS6/4',null,9,179.99,now()),
-(null,'Intel Core i3-10100F',null,10,749.99,now());
+insert into product(id,name,description,category,price,inventoryquantity,dateadded) values
+(null,'REDRAGON K530 PRO RGB',null,1,479.99,5,now()),
+(null,'LOGITECH MX Master 3',null,2,750.99,5,now()),
+(null,'MS Industrial ARMOR V700 gaming',null,3,429.99,5,now()),
+(null,'GIGABYTE B450 Gaming X',null,4,669.99,5,now()),
+(null,'GIGABYTE M27F-EK',null,5,1799.99,5,now()),
+(null,'Xilence 40×40×10mm',null,6,14.99,5,now()),
+(null,'Hikvision C100, 2.5"',null,7,299.99,5,now()),
+(null,'Akyga AK-B1-500',null,8,299.99,5,now()),
+(null,'Kingston KCP426NS6/4',null,9,179.99,5,now()),
+(null,'Intel Core i3-10100F',null,10,749.99,5,now());
 
 insert into productimage(id,product,imageurl,dateadded) values
 (null,1,'https://www.links.hr/content/images/thumbs/009/0096739_tipkovnica-redragon-draconic-k530-rgb-mehanicka-bezicna-usb-us-layout-crna-101200626.png','2021-11-26 13:05'),
