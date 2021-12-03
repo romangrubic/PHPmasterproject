@@ -120,14 +120,14 @@ insert into shoppingorder(id,customer,dateadded) values
 (null,8,now());
 
 insert into cart(id,shoppingorder,product,price,quantity,dateadded) values
-(null,1,1,479.99,1,now()),
-(null,1,2,750.99,1,now()),
-(null,2,5,1799.99,2,now()),
-(null,3,1,479.99,1,now()),
-(null,3,2,750.99,1,now()),
-(null,4,3,429.99,1,now()),
-(null,4,4,669.99,1,now()),
-(null,5,1,479.99,1,now()),
+(null,1,1,null,1,now()),
+(null,1,2,null,1,now()),
+(null,2,5,null,2,now()),
+(null,3,1,null,1,now()),
+(null,3,2,null,1,now()),
+(null,4,3,null,1,now()),
+(null,4,4,null,1,now()),
+(null,5,1,null,1,now()),
 (null,5,7,299.99,1,now()),
 (null,6,1,479.99,1,now()),
 (null,6,8,299.99,1,now()),
@@ -136,3 +136,44 @@ insert into cart(id,shoppingorder,product,price,quantity,dateadded) values
 (null,8,7,299.99,1,now()),
 (null,8,9,179.99,1,now()),
 (null,8,10,749.99,1,now());
+
+
+-- Procedura za popunjavanje cart.price
+-- za svaki cart redak uzmi njegovu kolicinu cart.quantity i cijenu od proizvoda FK product.price
+-- I stavi je pod cart.price
+
+drop procedure if exists cart_price;
+delimiter $$
+create procedure cart_price()
+begin
+DECLARE kraj INT default 0;
+DECLARE _id INT;
+DECLARE cart_kursor cursor for select id from cart order by id;
+DECLARE CONTINUE HANDLER FOR NOT FOUND SET kraj = 1;
+       
+open cart_kursor;
+
+petlja: loop
+fetch cart_kursor into _id;
+
+IF kraj=1 
+then leave petlja;
+end if;
+
+   update cart set cart.price=(select a.quantity*b.price
+             from cart a
+             inner join product b on a.product=b.id
+            where a.id= _id)
+	where id= _id;
+  
+end loop petlja;
+
+close cart_kursor;
+
+END;
+$$
+delimiter ;
+
+
+-- Aktiviras je s call ime()
+call cart_price();
