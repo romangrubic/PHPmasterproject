@@ -107,14 +107,15 @@ insert into productimage(id,product,imageurl,dateadded) values
 (null,8,'https://www.instar-informatika.hr/slike/velike/akb1500.jpg',now()),
 (null,9,'https://www.instar-informatika.hr/slike/velike/memorija-kingston-ddr4-2666mhz-4gb-brand-king-kcp426ns6-4gb_1.jpg',now()),
 (null,10,'https://www.instar-informatika.hr/slike/velike/procesor-intel-core-i3-10100f-36ghz-6mb--inp-000151_1.jpg',now());
-
+-- 
+---------------------------------------------------------------------------------
 -- Procedure to create 100 rows in shoppingorder
 -- Kreiraj 100 narudzbi gdje su id kupaca random izmedu 1-10
 -- napravi insert 10 kupaca prije ove procedure
 -- uvjet: moras imati 10kupaca s id 1-10 !!!! 
-drop procedure if exists kreiraj_shoppingorder;
+drop procedure if exists create_shoppingorder;
 delimiter $$
-create procedure kreiraj_shoppingorder()
+create procedure create_shoppingorder()
 begin
 	
 	DECLARE kraj INT default 0;
@@ -131,26 +132,37 @@ end;
 $$
 delimiter ;
 
-call kreiraj_shoppingorder();
+call create_shoppingorder();
+-- 
+---------------------------------------------------------------------------
+-- Kreiraj 500 cart redaka 
+-- fiksirano na 100 prvih shoppingorder i na prvih 10 proizvoda i kolicina max 5
+-- napravi kreiraj_shoppingorder prije ovoga
+-- moras imati shopping ordere s id 1-100 !!!!
+-- insert 10 proizvoda prije procedure.
+-- moras imati proizvoda s id 1-10 !!!!
+drop procedure if exists create_cart;
+delimiter $$
+create procedure create_cart()
+begin
+	
+	DECLARE kraj INT default 0;
+	
+petlja: loop
+	IF kraj=500 then leave petlja;
+	end if;	
+	insert into cart(id,shoppingorder,product,quantity,dateadded) 
+	values (null,floor(rand()*100+1),floor(rand()*10+1), floor(rand()*5+1), now());
 
-insert into cart(id,shoppingorder,product,price,quantity,dateadded) values
-(null,1,1,null,1,now()),
-(null,1,2,null,1,now()),
-(null,2,5,null,2,now()),
-(null,3,1,null,1,now()),
-(null,3,2,null,1,now()),
-(null,4,3,null,1,now()),
-(null,4,4,null,1,now()),
-(null,5,1,null,1,now()),
-(null,5,7,299.99,1,now()),
-(null,6,1,479.99,1,now()),
-(null,6,8,299.99,1,now()),
-(null,7,5,1799.99,1,now()),
-(null,7,6,14.99,1,now()),
-(null,8,7,299.99,1,now()),
-(null,8,9,179.99,1,now()),
-(null,8,10,749.99,1,now());
+	set kraj=kraj+1;
+end loop petlja;	
+end;
+$$
+delimiter ;
 
+call create_cart();
+-- 
+------------------------------------------------------------------------------
 -- Zbraja product.price i cart.quantity iz carta i puni vrijednost za cart.price
 -- moras imati inserte u cartu da ih moze zbrojit
 -- ide red po red kroz cart i zbraja
@@ -188,6 +200,6 @@ delimiter ;
 
 
 call cart_price();
-
-
+-- 
+----------------------------------------------------------------------------------
 -- Kraj sql file-a
