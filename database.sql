@@ -108,16 +108,30 @@ insert into productimage(id,product,imageurl,dateadded) values
 (null,9,'https://www.instar-informatika.hr/slike/velike/memorija-kingston-ddr4-2666mhz-4gb-brand-king-kcp426ns6-4gb_1.jpg',now()),
 (null,10,'https://www.instar-informatika.hr/slike/velike/procesor-intel-core-i3-10100f-36ghz-6mb--inp-000151_1.jpg',now());
 
-insert into shoppingorder(id,customer,dateadded) values
-(null,1,now()),
-(null,1,now()),
-(null,2,now()),
-(null,3,now()),
-(null,4,now()),
-(null,5,now()),
-(null,6,now()),
-(null,7,now()),
-(null,8,now());
+-- Procedure to create 100 rows in shoppingorder
+-- Kreiraj 100 narudzbi gdje su id kupaca random izmedu 1-10
+-- napravi insert 10 kupaca prije ove procedure
+-- uvjet: moras imati 10kupaca s id 1-10 !!!! 
+drop procedure if exists kreiraj_shoppingorder;
+delimiter $$
+create procedure kreiraj_shoppingorder()
+begin
+	
+	DECLARE kraj INT default 0;
+	
+petlja: loop
+	IF kraj=100 then leave petlja;
+	end if;	
+	insert into shoppingorder(id,customer,dateadded) 
+	values (null,floor(rand()*10+1), now());
+
+	set kraj=kraj+1;
+end loop petlja;	
+end;
+$$
+delimiter ;
+
+call kreiraj_shoppingorder();
 
 insert into cart(id,shoppingorder,product,price,quantity,dateadded) values
 (null,1,1,null,1,now()),
@@ -137,11 +151,9 @@ insert into cart(id,shoppingorder,product,price,quantity,dateadded) values
 (null,8,9,179.99,1,now()),
 (null,8,10,749.99,1,now());
 
-
--- Procedura za popunjavanje cart.price
--- za svaki cart redak uzmi njegovu kolicinu cart.quantity i cijenu od proizvoda FK product.price
--- I stavi je pod cart.price
-
+-- Zbraja product.price i cart.quantity iz carta i puni vrijednost za cart.price
+-- moras imati inserte u cartu da ih moze zbrojit
+-- ide red po red kroz cart i zbraja
 drop procedure if exists cart_price;
 delimiter $$
 create procedure cart_price()
@@ -175,5 +187,7 @@ $$
 delimiter ;
 
 
--- Aktiviras je s call ime()
 call cart_price();
+
+
+-- Kraj sql file-a
