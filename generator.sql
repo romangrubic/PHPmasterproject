@@ -86,3 +86,16 @@ $$
 DELIMITER ;
 
 
+------------------------------------------------------------------------
+-- Na random izabere jedan od gradova u tablici city
+
+drop function if exists randomcity;
+DELIMITER $$
+create function randomcity() returns varchar(20)
+begin
+    return (select city from city order by rand() limit 1);
+end;
+$$
+DELIMITER ;
+
+
