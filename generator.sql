@@ -73,3 +73,16 @@ insert into city(city) values
 ('Našice');
 
 
+-----------------------------------------------------------------------
+-- Funkcija koja pravi email od imena i prezime @mojatrgovina.com bez dijakritike
+
+drop function if exists emailfunction;
+DELIMITER $$
+create function emailfunction(firstname varchar(20), lastname varchar(20)) returns varchar(255)
+begin
+    return concat(left(lower(firstname),1),'.', lower(replace(replace(replace(replace(replace(replace(upper(lastname),' ',''),'Č','C'),'Ć','C'),'Ž','Z'),'Š','S'),'Đ','D')), '@mojatrgovina.com');
+end;
+$$
+DELIMITER ;
+
+
