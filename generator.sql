@@ -155,3 +155,15 @@ $$
 DELIMITER ;
 
 call customercreation();
+
+------------------------------------------------------------------------
+-- Nakon svega toga, cistimo databazu od tablica firstname,lastname,city i brisemo funkcije i procedure
+
+drop table firstname;
+drop table lastname;
+drop table city;
+
+drop function emailfunction;
+drop function randomcity;
+
+drop procedure procedura1;
