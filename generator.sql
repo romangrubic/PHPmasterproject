@@ -33,3 +33,43 @@ create table customer(
     datecreated datetime not null
 );
 
+-------------------------------------------------------------------
+-- Punimo tablicu s imenima
+insert into firstname(firstname) values
+('Roman'),
+('Ivan'),
+('Matija'),
+('Dario'),
+('Dunja'),
+('Mirna'),
+('Saša'),
+('Lana'),
+('Ljupka'),
+('Vjera');
+
+-- Punimo tablicu s prezimenima
+insert into lastname(lastname) values
+('Knežević'),
+('Horvat'),
+('Kovačević'),
+('Pavlović'),
+('Blažević'),
+('Božić'),
+('Lovrić'),
+('Babić'),
+('Marković'),
+('Bošnjak');
+
+-- Punimo tablicu s gradovima. Stavljamo 3x Osijek jer je veliki grad
+insert into city(city) values
+('Osijek'),
+('Osijek'),
+('Osijek'),
+('Valpovo'),
+('Beli Manastir'),
+('Đakovo'),
+('Belišće'),
+('Donji Miholjac'),
+('Našice');
+
+
