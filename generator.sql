@@ -109,10 +109,7 @@ create procedure customercreation()
 begin
 
     declare _firstname varchar(20);
-    declare _lastname varchar(20);
-
     declare firstname_kraj int default 0;
-
     declare firstname_cursor cursor for select firstname from firstname order by id;    
     declare continue handler for not found set firstname_kraj = 1;
     
@@ -128,6 +125,7 @@ begin
 
 
         BLOCK1: begin
+        declare _lastname varchar(20);
         declare lastname_kraj int default 0;
         declare lastname_cursor cursor for select lastname from lastname order by id;
         declare continue handler for not found set lastname_kraj = 1;
@@ -145,10 +143,16 @@ begin
             (null,_firstname,_lastname,emailfunction(_firstname,_lastname),randomcity(),now());
 
         end loop secondloop;
+
+        close lastname_cursor;
+
         set lastname_kraj=0;
+
         end BLOCK1;        
     
     end loop firstloop;
+
+    close firstname_cursor;
 
 end;
 $$
@@ -166,4 +170,4 @@ drop table city;
 drop function emailfunction;
 drop function randomcity;
 
-drop procedure procedura1;
+drop procedure customercreation;
