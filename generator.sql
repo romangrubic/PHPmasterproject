@@ -18,7 +18,8 @@ create table lastname(
 
 create table city(
     id int not null primary key auto_increment,
-    city varchar(20)
+    city varchar(20),
+    postalnumber char(5)
 );
 
 create table customer(
@@ -61,16 +62,16 @@ insert into lastname(lastname) values
 ('Bošnjak');
 
 -- Punimo tablicu s gradovima. Stavljamo 3x Osijek jer je veliki grad
-insert into city(city) values
-('Osijek'),
-('Osijek'),
-('Osijek'),
-('Valpovo'),
-('Beli Manastir'),
-('Đakovo'),
-('Belišće'),
-('Donji Miholjac'),
-('Našice');
+insert into city(city,postalnumber) values
+('Osijek','31000'),
+('Osijek','31000'),
+('Osijek','31000'),
+('Valpovo','31550'),
+('Beli Manastir','31300'),
+('Đakovo','31400'),
+('Belišće','31551'),
+('Donji Miholjac','31540'),
+('Našice','31500');
 
 
 -----------------------------------------------------------------------
@@ -97,7 +98,6 @@ begin
 end;
 $$
 DELIMITER ;
-
 
 ------------------------------------------------------------------------
 -- Procedura: za svako ime pravimo petlju da dobije svako prezime iz tablice s prezimenima (jedno ime s deset razlicith prezimena),
@@ -160,6 +160,46 @@ DELIMITER ;
 
 call customercreation();
 
+-----------------------------------------------------------------------------------------------
+-- Procedura koja ce popuniti postalnumber u customer tablici 
+-- (preskace one koji vec imaju namjesten postalnumber)
+
+drop procedure if exists postalnumber;
+DELIMITER $$
+create procedure postalnumber()
+begin
+    declare _postalnumber char(5);
+    declare _city varchar(20);
+    declare _id int;
+    declare kraj int default 0;
+    declare customer_cursor cursor for select city, postalnumber from customer order by id;
+    declare continue handler for not found set kraj=1;
+
+    open customer_cursor;
+    petlja: loop
+        fetch customer_cursor into _city, _postalnumber;
+
+        if kraj=1 then leave petlja;
+        end if;
+
+        if _postalnumber is not null then leave petlja;
+        end if;
+
+        set _postalnumber = (select distinct postalnumber from city where city=_city);
+
+        -- Namjestamo postalnumber za SVE customere koji imaju isti grad.
+        update customer set postalnumber=_postalnumber where city=_city;
+
+    end loop petlja;
+
+    close customer_cursor;
+
+end;
+$$
+DELIMITER ;
+
+call postalnumber();
+
 ------------------------------------------------------------------------
 -- Nakon svega toga, cistimo databazu od tablica firstname,lastname,city i brisemo funkcije i procedure
 
@@ -171,3 +211,4 @@ drop function emailfunction;
 drop function randomcity;
 
 drop procedure customercreation;
+drop procedure postalnumber;
